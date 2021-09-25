@@ -1,11 +1,20 @@
 package com.image.upload.image_location.domain;
 
 public class User {
-    String username;
-    String password;
+    private String username;
+    private String password;
+    private Long id;
 
     public String getUsername() {
         return username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
