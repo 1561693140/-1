@@ -32,6 +32,10 @@ public class CodeMsg {
 	public static CodeMsg REPEATE_MIAOSHA = new CodeMsg(500501, "不能重复秒杀");
 	public static CodeMsg MIAOSHA_TIMEOUT = new CodeMsg(500502, "秒杀已结束");
 	public static CodeMsg MIAOSHA_FAILED = new CodeMsg(500503, "秒杀失败");
+
+	// 图片上传模块
+	public static CodeMsg FILE_EMPTY = new CodeMsg(500601, "文件为空");
+	public static CodeMsg FILE_ERROR = new CodeMsg(500602, "文件上传失败");
 	private CodeMsg( int code,String msg ) {
 		this.code = code;
 		this.msg = msg;
