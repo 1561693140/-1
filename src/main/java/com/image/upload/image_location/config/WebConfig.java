@@ -15,8 +15,12 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${user.file.path")
-    private String filePath;
+    @Value("${user.originImage.path}")
+    private String origin_image_path;
+
+    @Value("${user.thumbImage.path}")
+    private String thumb_image_path;
+
 
     @Autowired
     UserArgumentResolvers userArgumentResolvers;
@@ -37,13 +41,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/**").addResourceLocations(
-                "classpath:/META-INF/resources/",
-                "classpath:/resources/",
-                "classpath:/static/",
-                "classpath:/public/",
-                "file:/D:/testImage/",
-                "classpath:/webapp/");
+
+        registry.addResourceHandler("/image/**").addResourceLocations("file:"+origin_image_path);
+        registry.addResourceHandler("/thumbImage/**").addResourceLocations("file:/"+thumb_image_path);
+
     }
 
 

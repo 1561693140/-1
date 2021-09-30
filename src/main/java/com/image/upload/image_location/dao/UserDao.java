@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 @Mapper
-@Service
 public interface UserDao {
 
     @Select("select * from user where username = #{username}")

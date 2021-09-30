@@ -5,9 +5,10 @@ import com.image.upload.image_location.Result.CodeMsg;
 import com.image.upload.image_location.Result.Result;
 import com.image.upload.image_location.access.AccessLimit;
 import com.image.upload.image_location.domain.User;
-import com.image.upload.image_location.exception.GlobalException;
-import com.image.upload.image_location.service.UserService;
-import com.image.upload.image_location.vo.LoginVo;
+import com.image.upload.image_location.service.ImageService;
+
+import com.image.upload.image_location.vo.ImageInfoVO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ import java.io.IOException;
 @RequestMapping("/image")
 public class ImageController {
 
-    @Value("${user.file.path}")
+    @Value("${user.originImage.path}")
     private String file_path;
 
     @Value("${user.web.url}")
@@ -35,10 +36,16 @@ public class ImageController {
 
     private static Logger log = LoggerFactory.getLogger(ImageController.class);
 
+    @Autowired
+    private ImageService imageService;
+
     @RequestMapping("/upload")
     @ResponseBody
-//    @AccessLimit(maxCount = 30, seconds = 10)
+    @AccessLimit(maxCount = 100, seconds = 10)
     public Result<String> upload(@RequestParam(value = "file") MultipartFile file, User user) {
+        if(user == null) {
+            return Result.error(CodeMsg.NOT_LOG_IN);
+        }
         if(file.isEmpty()) {
             return Result.error(CodeMsg.FILE_EMPTY);
         }
@@ -51,7 +58,22 @@ public class ImageController {
             log.error(e.toString(), e);
             return Result.error(CodeMsg.FILE_ERROR);
         }
-        return Result.success(base_url+file.getOriginalFilename());
+        return Result.success(base_url+"image/"+file.getOriginalFilename());
     }
+
+    @RequestMapping("/uploadImageInfo")
+    @ResponseBody
+    @AccessLimit(seconds = 5,maxCount = 50)
+    public Result<String> uploadImageInfo(ImageInfoVO imageInfoVO, User user) {
+        if(user == null){
+            return Result.error(CodeMsg.NOT_LOG_IN);
+        }
+        imageService.uploadImage(imageInfoVO,user);
+        return Result.success("success");
+
+    }
+
+
+
 
 }

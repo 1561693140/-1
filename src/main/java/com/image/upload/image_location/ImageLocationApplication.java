@@ -9,5 +9,4 @@ public class ImageLocationApplication {
     public static void main(String[] args) {
         SpringApplication.run(ImageLocationApplication.class, args);
     }
-
 }

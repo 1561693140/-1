@@ -91,7 +91,17 @@ public class UserService {
     }
 
 
-    public User getByToken(HttpServletResponse response, String token) {
-        return null;
+    public User getByToken(HttpServletResponse response,String token) {
+        if(StringUtils.isEmpty(token)){
+            return null;
+        }
+        User user =  redisService.get(UserKey.token,token,User.class);
+//        延长有效期
+        if(user !=null){
+            addCookie(response,user,token);
+        }
+
+        return user;
+
     }
 }
