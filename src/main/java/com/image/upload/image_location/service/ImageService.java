@@ -14,26 +14,18 @@ import com.image.upload.image_location.redis.UserKey;
 import com.image.upload.image_location.util.ImageUtils;
 import com.image.upload.image_location.util.UUIDUtil;
 import com.image.upload.image_location.vo.ImageInfoVO;
-import com.image.upload.image_location.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
+
+
+
 import java.util.Date;
-import java.util.Objects;
 
 @Service
 public class ImageService {
@@ -86,6 +78,12 @@ public class ImageService {
         }
 
     }
+
+    @Autowired
+    public List<ImgList> listAllImage(){
+        return imgListDao.listALL();
+    }
+
 
 
 
